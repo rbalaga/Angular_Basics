@@ -1,6 +1,7 @@
-import { Pipe, PipeTransform, Component } from '@angular/core';
+import { Pipe, PipeTransform, Component, ViewChild } from '@angular/core';
 import User from 'src/models/User.model';
-import { HeaderComponent } from './components/header/header.component';
+import { UsersService } from './services/users.service';
+import { NgForm } from '@angular/forms';
 
 @Pipe({ name: 'add2' })
 export class Add2 implements PipeTransform {
@@ -26,42 +27,26 @@ export class AppComponent {
   loaded: boolean;
   enableAdd: boolean;
   currentClasses = {};
-  header = HeaderComponent;
+  @ViewChild('userForm') form: any;
 
-  constructor() {
+  constructor(private userService: UsersService) {
     this.currentStyles = '{ margin-top: 50%; }';
     this.enableAdd = true;
-    this.users = [
-      {
-        firstName: 'RAMMOHANA RAO',
-        lastName: 'BALAGA',
-        age: 25,
-        active: true,
-        doj: new Date()
-      },
-      {
-        firstName: 'SIMHACHALAM',
-        lastName: 'BALAGA',
-        age: 24,
-        active: true,
-        doj: new Date()
-      },
-      {
-        firstName: 'SURESH',
-        lastName: 'BALAGA',
-        age: 28,
-        active: true,
-        doj: new Date()
-      }
-    ];
-    this.loaded = true;
+    userService.getUsers().subscribe(users => {
+      this.users = users;
+      this.loaded = true;
+    });
   }
 
-  onSubmit = () => {
-    this.user.active = true;
-    this.user.doj = new Date();
-    this.users.unshift(this.user);
-    this.user = { ...initialState };
-    console.log(this.user);
+  onSubmit = ({ value, valid }: { value: User; valid: boolean }) => {
+    if (!valid) {
+      console.log('User details not valid');
+    } else {
+      value.active = true;
+      value.doj = new Date();
+      this.userService.addUser(value);
+      this.form.reset();
+      this.userService.printUsers();
+    }
   };
 }
