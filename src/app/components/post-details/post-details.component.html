@@ -1,0 +1,14 @@
+<div class="m-3">
+  <a routerLink="/posts" class="btn btn-sm btn-light"> Back </a>
+  <div *ngIf="!loading; else Loading">
+    <h3>{{ post.title }}</h3>
+    <p>
+      {{ post.body }}
+    </p>
+  </div>
+  <ng-template #Loading>
+    <div class="card-text m-3">
+      <small> <i class="fa fa-spin fa-spinner"></i> Fetching post details... </small>
+    </div>
+  </ng-template>
+</div>

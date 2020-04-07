@@ -1,5 +1,18 @@
 <nav class="navbar navbar-expand navbar-light bg-primary">
-  <div class="nav navbar-nav">
-    <div class="nav-item nav-link active" href="#">Angular App</div>
+  <div class="nav navbar-nav pull-left">
+    <a class="nav-item nav-link active" routerLink="" >Angular App</a>
+  </div>
+  <div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+        <a routerLink="users" class="nav-link">Users</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" routerLink="posts">Posts</a>
+      </li>
+    </ul>
   </div>
 </nav>

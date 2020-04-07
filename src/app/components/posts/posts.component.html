@@ -1,0 +1,29 @@
+<div>
+  <app-post-form (updatedPost)="onUpdatedPost($event)" [currentPost]="currentPost" [isEdit]="isEdit" (newPost)="addNewPost($event)"></app-post-form>
+  <h4>Posts</h4>
+  <div *ngIf="!loading && posts?.length > 0; else noPosts">
+    <div class="card mb-3" *ngFor="let post of posts">
+      <div class="card-body">
+        <h5 class="card-title">
+          <a routerLink="{{post.id}}"> {{ post.title }} </a>
+        </h5>
+        <p class="card-text">{{ post.body }}</p>
+        <hr>
+        <div>
+          <button (click)="handleDelete(post.id)" class="btn btn-sm btn-danger mr-3"><i class="fa fa-times"></i></button>
+          <button (click)="handleEdit(post)" class="btn btn-light btn-sm"><i class="fa fa-pencil"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noPosts>
+    <div *ngIf="loading">
+      <small>
+        <i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading..!
+      </small>
+    </div>
+    <div *ngIf="!loading">
+      <h4><i class="fas fa-engine-warning"></i> No Posts!</h4>
+    </div>
+  </ng-template>
+</div>

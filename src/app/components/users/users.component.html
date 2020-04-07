@@ -1,0 +1,102 @@
+<div class="m-3">
+  <div class="card card-body mb-3">
+    <form (submit)="onSubmit(userForm)" #userForm="ngForm">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          [(ngModel)]="user.firstName"
+          type="text"
+          #userFirstName="ngModel"
+          [class.is-invalid]="userFirstName.errors && userFirstName.touched"
+          [class.is-valid]="!userFirstName.errors && userFirstName.touched"
+          class="form-control"
+          minlength="3"
+          required
+          name="firstName"
+        />
+        <div
+          class="invalid-feedback"
+          [hidden]="!userFirstName.errors?.required"
+        >
+          First name required
+        </div>
+        <div
+          class="invalid-feedback"
+          [hidden]="!userFirstName.errors?.minlength"
+        >
+          First name should be 3 characters length
+        </div>
+        <div class="valid-feedback">Hello {{ user.firstName }} ;)</div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input
+          [(ngModel)]="user.lastName"
+          type="text"
+          required
+          #userLastName="ngModel"
+          minlength="3"
+          [class.is-invalid]="userLastName.errors && userLastName.touched"
+          [class.is-valid]="!userLastName.errors && userLastName.touched"
+          class="form-control"
+          name="lastName"
+        />
+        <div class="invalid-feedback">
+          Last name is required
+        </div>
+        <div class="valid-feedback">Hello {{ userLastName.value }}</div>
+      </div>
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input
+          [(ngModel)]="user.age"
+          type="number"
+          name="age"
+          class="form-control"
+        />
+      </div>
+      <button
+        [disabled]="!user.firstName || !user.lastName"
+        class="btn btn-block btn-success"
+      >
+        Add new user
+      </button>
+    </form>
+  </div>
+  <ul class="list-unstyled" *ngIf="loaded && users.length > 0; else noUsers">
+    <li
+      class="card card-body mb-2"
+      *ngFor="let user of users"
+      [class.bg-primary]="user.active"
+      [style.border-color]="user.active ? 'green' : ''"
+    >
+      <div>
+        <h6 class="pull-left">{{ user.firstName }} {{ user.lastName }}</h6>
+        <small class="pull-right"
+          ><button class="btn btn-dark btn-sm" (click)="user.hide = !user.hide">
+            <i
+              class="fa"
+              [class]="user.hide ? 'fa-minus' : 'fa-plus'"
+            ></i></button
+        ></small>
+      </div>
+      <div *ngIf="user.hide">
+        <ul class="list-group" *ngIf="user.active">
+          <li class="list-group-item">Age : {{ user.age }}</li>
+          <li class="list-group-item">DOJ : {{ user.doj | date }}</li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #noUsers>
+    <div class="card card-body">
+      <div *ngIf="!loaded">
+        <i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>  Loading users..!
+      </div>
+      <div *ngIf="loaded">
+        <i class="fa fa-database" aria-hidden="true"></i> No users found..!
+      </div>
+    </div>
+  </ng-template>
+</div>

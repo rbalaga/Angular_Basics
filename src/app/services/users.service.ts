@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import User from 'src/models/User.model';
+import User from 'src/app/models/User.model';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -43,7 +43,7 @@ export class UsersService {
     return new Observable(observer => {
       setTimeout(() => {
         observer.next(this.users);
-      }, 4000);
+      }, 1000);
     });
   };
 }
